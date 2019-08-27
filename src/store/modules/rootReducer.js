@@ -5,5 +5,5 @@ import auth from './auth/reducer';
 
 export default combineReducers({
   auth,
-  bi: user,
+  user,
 });
