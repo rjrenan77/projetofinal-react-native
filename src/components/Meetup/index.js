@@ -19,8 +19,7 @@ import {
 import banner from '~/assets/banner.jpg';
 
 export default function Meetup({ data }) {
-  const data2 = new Date(data.date);
-  const dateParsed = format(data2, 'D [de] MMMM, [às] H[h]', {
+  const dateParsed = format(data.date, 'D [de] MMMM, [às] H[h]', {
     locale: pt,
   });
 
