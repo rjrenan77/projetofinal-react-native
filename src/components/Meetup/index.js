@@ -1,8 +1,10 @@
-import React, { useMemo } from 'react';
-import { TouchableOpacity } from 'react-native';
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/prop-types */
+import React from 'react';
+import { Alert, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { parseISO, format } from 'date-fns';
+import { format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
 import {
@@ -18,15 +20,32 @@ import {
 } from './styles';
 import banner from '~/assets/banner.jpg';
 
-export default function Meetup({ data }) {
+export default function Meetup({ data, onSubscribe }) {
   const dateParsed = format(data.date, 'D [de] MMMM, [às] H[h]', {
     locale: pt,
   });
+
+  function buttonClickded() {
+    Alert.alert(
+      'Sucesso!',
+      'Usuário inscrito na meetup!',
+      [
+        { text: 'OK', onPress: () => console.log('OK Pressed') },
+      ],
+      { cancelable: false }
+    );
+  }
+
+  function functionCombined() {
+    onSubscribe();
+    buttonClickded();
+  }
 
   return (
     <Container>
       <Top>
         <Image source={banner} />
+
         <Info>
           <Date>
             {' '}
@@ -46,9 +65,10 @@ export default function Meetup({ data }) {
           </Organizer>
         </Info>
       </Top>
-      <TouchableOpacity onPress={() => {}}>
+
+      <TouchableOpacity onPress={functionCombined}>
         <Button>
-          <Label>Realizar Inscrição</Label>
+          <Label>Inscrever-se</Label>
         </Button>
       </TouchableOpacity>
     </Container>

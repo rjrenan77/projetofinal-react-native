@@ -1,5 +1,7 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
 import { Container, Title, List } from './styles';
 import api from '~/services/api';
 
@@ -20,6 +22,10 @@ export default function Dashboard() {
 
     loadMeetups();
   }, []);
+
+  async function handleSubscribe(id) {
+    const response = await api.post(`/meetups/${id}/inscriptions`);
+  }
   return (
     <Background>
       <Container>
@@ -27,7 +33,9 @@ export default function Dashboard() {
         <List
           data={meetups}
           keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => <Meetup data={item} />}
+          renderItem={({ item }) => (
+            <Meetup onSubscribe={() => handleSubscribe(item.id)} data={item} />
+          )}
         />
       </Container>
     </Background>
