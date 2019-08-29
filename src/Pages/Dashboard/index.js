@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { withNavigationFocus } from 'react-navigation';
+import moment from 'moment';
+import 'moment/locale/pt-br';
 
 import { Container, Title, List } from './styles';
 import api from '~/services/api';
@@ -8,28 +11,33 @@ import api from '~/services/api';
 import Background from '~/components/Background';
 import Meetup from '~/components/Meetup';
 
-export default function Dashboard() {
+function Dashboard({ isFocused }) {
   const [meetups, setMeetups] = useState([]);
 
+  async function loadMeetups() {
+    const response = await api.get('meetups');
+
+    console.tron.log(response.data);
+
+    setMeetups(response.data);
+  }
   useEffect(() => {
-    async function loadMeetups() {
-      const response = await api.get('meetups');
-
-      console.tron.log(response.data);
-
-      setMeetups(response.data);
+    if (isFocused) {
+      loadMeetups();
     }
-
-    loadMeetups();
-  }, []);
+  }, [isFocused]);
 
   async function handleSubscribe(id) {
-    const response = await api.post(`/meetups/${id}/inscriptions`);
+    await api.post(`/meetups/${id}/inscriptions`);
   }
+
+  moment.locale('pt-br');
+  const date = moment().format('L');
+
   return (
     <Background>
       <Container>
-        <Title>DATA</Title>
+        <Title>{date}</Title>
         <List
           data={meetups}
           keyExtractor={item => String(item.id)}
@@ -48,3 +56,5 @@ Dashboard.navigationOptions = {
     <Icon name="meetup" size={20} color={tintColor} />
   ),
 };
+
+export default withNavigationFocus(Dashboard);

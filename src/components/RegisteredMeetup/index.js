@@ -20,15 +20,15 @@ import {
 } from './styles';
 import banner from '~/assets/banner.jpg';
 
-export default function Meetup({ data, onSubscribe }) {
-  const dateParsed = format(data.date, 'D [de] MMMM, [às] H[h]', {
+export default function RegisteredMeetup({ data, onUnregisterMeetup }) {
+  const dateParsed = format(data.Meetup.date, 'D [de] MMMM, [às] H[h]', {
     locale: pt,
   });
 
   function buttonClickded() {
     Alert.alert(
       'Sucesso!',
-      'Usuário inscrito na meetup!',
+      'Usuário desinscrito na meetup!',
       [
         { text: 'OK', onPress: () => console.log('OK Pressed') },
       ],
@@ -37,9 +37,10 @@ export default function Meetup({ data, onSubscribe }) {
   }
 
   function functionCombined() {
-    onSubscribe();
+    onUnregisterMeetup();
     buttonClickded();
   }
+
 
   return (
     <Container>
@@ -56,7 +57,7 @@ export default function Meetup({ data, onSubscribe }) {
           <Locale>
             {' '}
             <Icon name="location-on" size={13} />
-            {data.location}
+            {data.Meetup.location}
           </Locale>
           <Organizer>
             {' '}
@@ -68,7 +69,7 @@ export default function Meetup({ data, onSubscribe }) {
 
       <TouchableOpacity onPress={functionCombined}>
         <Button>
-          <Label>Inscrever-se</Label>
+          <Label>Desinscrever-se do Meetup</Label>
         </Button>
       </TouchableOpacity>
     </Container>

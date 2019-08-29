@@ -7,6 +7,7 @@ import SignIn from './Pages/SignIn';
 import SignUp from './Pages/SignUp';
 import Dashboard from './Pages/Dashboard';
 import Profile from './Pages/Profile';
+import Inscriptions from './Pages/Inscriptions';
 
 export default (isSigned = false) =>
   createAppContainer(
@@ -19,9 +20,11 @@ export default (isSigned = false) =>
         App: createBottomTabNavigator(
           {
             Dashboard,
+            Inscriptions,
             Profile,
           },
           {
+            resetOnBlur: true,
             tabBarOptions: {
               keyboardHidesTabBar: true,
               activeTintColor: '#FFF',
